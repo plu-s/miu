@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/userPic"
+        android:layout_width="@dimen/user_pic_size"
+        android:layout_height="@dimen/user_pic_size"
+        android:layout_margin="@dimen/item_view_size"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/user_name"
+        app:layout_constraintBottom_toTopOf="@id/line1"
+        app:riv_oval="true"
+        app:riv_border_width="1dp"
+        app:riv_border_color="@color/black" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/item_view_size"
+        android:text="名字"
+        android:textSize="@dimen/view_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/userPic"
+        app:layout_constraintStart_toEndOf="@id/userPic"
+        app:layout_constraintTop_toTopOf="@id/userPic" />
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@id/userPic"
+        app:layout_constraintBottom_toTopOf="@id/commentContent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/commentContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/view_text_size"
+        android:text="comment"
+        android:maxLines="3"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
+    <TextView
+        android:id="@+id/commentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/view_text_size"
+        android:text="xxxx-xx-xx"
+        android:maxLines="3"
+        app:layout_constraintTop_toBottomOf="@id/commentContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/view_margin"/>
+</android.support.constraint.ConstraintLayout>

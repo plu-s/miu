@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_height">36dp</dimen>
+    <dimen name="view_text_size">16sp</dimen>
+    <dimen name="view_text_size_small">12sp</dimen>
+    <dimen name="view_margin">16dp</dimen>
+    <dimen name="view_margin_large">32dp</dimen>
+    <dimen name="text_icon_size">24sp</dimen>
+    <dimen name="item_view_size">8dp</dimen>
+    <dimen name="icon_number_margin">2dp</dimen>
+    <dimen name="user_pic_size">50dp</dimen>
+    <dimen name="item_icon_size">20dp</dimen>
+    <dimen name="button_padding_size">8dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+</resources>
