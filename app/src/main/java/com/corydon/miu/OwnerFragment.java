@@ -102,10 +102,12 @@ public class OwnerFragment extends Fragment {
                 startActivity(intent);
             }
             else if(v.getId()==R.id.myDoLike){
-                //
+                Intent intent=new Intent(getContext(),MyDoLikeActivity.class);
+                startActivity(intent);
             }
             else if(v.getId()==R.id.myComments){
-                //
+                Intent intent=new Intent(getContext(),MyCommentActivity.class);
+                startActivity(intent);
             }
         }
     }

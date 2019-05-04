@@ -91,7 +91,7 @@
         android:id="@+id/myComments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="我的帖子"
+        android:text="我的评论"
         android:textSize="@dimen/view_text_size"
         android:background="@null"
         app:layout_constraintTop_toBottomOf="@id/myDoLike"

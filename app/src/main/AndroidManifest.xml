@@ -46,7 +46,9 @@
         </activity>
         <activity android:name="com.corydon.miu.ShowDiscussActivity" />
         <activity android:name="com.corydon.miu.AccountSettingActivity" />
-        <activity android:name="com.corydon.miu.MyDiscussActivity"></activity>
+        <activity android:name="com.corydon.miu.MyDiscussActivity" />
+        <activity android:name="com.corydon.miu.MyDoLikeActivity" />
+        <activity android:name="com.corydon.miu.MyCommentActivity" />
     </application>
 
 </manifest>
