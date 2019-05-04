@@ -14,10 +14,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/user_name"
-        app:layout_constraintBottom_toTopOf="@id/line1"
+        app:layout_constraintBottom_toTopOf="@id/title"
         app:riv_oval="true"
         app:riv_border_width="1dp"
         app:riv_border_color="@color/black" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="title"
+        app:layout_constraintBottom_toTopOf="@+id/commentContent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userPic" />
 
     <TextView
         android:id="@+id/userName"
@@ -30,14 +42,7 @@
         app:layout_constraintStart_toEndOf="@id/userPic"
         app:layout_constraintTop_toTopOf="@id/userPic" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="title"
-        app:layout_constraintBottom_toTopOf="@+id/commentContent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userPic" />
+
     <View
         android:id="@+id/line1"
         android:layout_width="match_parent"
@@ -46,22 +51,31 @@
         app:layout_constraintBottom_toTopOf="@id/commentContent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
     <TextView
         android:id="@+id/commentContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/view_text_size"
-        android:text="comment"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:maxLines="3"
+        android:text="comment"
+        android:textSize="@dimen/view_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line1" />
+
     <TextView
         android:id="@+id/commentDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/view_text_size"
-        android:text="xxxx-xx-xx"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:maxLines="3"
-        app:layout_constraintTop_toBottomOf="@id/commentContent"
+        android:text="xxxx-xx-xx"
+        android:textSize="@dimen/view_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/view_margin"/>
+        app:layout_constraintTop_toBottomOf="@id/commentContent" />
 </android.support.constraint.ConstraintLayout>
