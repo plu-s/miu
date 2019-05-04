@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corydon.miu.bean.Discuss;
-import com.corydon.miu.bean.DiscussComment;
 import com.corydon.miu.bean.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,7 +29,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,12 +45,14 @@ public class MyCommentActivity extends AppCompatActivity {
 
     @BindView(R.id.mycommentView)
     RecyclerView myCommentView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     List<MyComment> myCommentList = new ArrayList<>();
     CommentAdapter commentAdapter = new CommentAdapter(myCommentList);
     User user = MainActivity.user;
     Handler handler = new Handler();
-    private Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
 
 
     @Override
@@ -63,16 +64,18 @@ public class MyCommentActivity extends AppCompatActivity {
     }
 
     public void initView() {
+        toolbar.setTitle("我的评论");
+        setSupportActionBar(toolbar);
         myCommentView.setLayoutManager(new LinearLayoutManager(this));
         myCommentView.setAdapter(commentAdapter);
-        myCommentView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        myCommentView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         loadMyComment();
     }
 
-    void loadMyComment(){
-        Map<String,String> forms=new HashMap<>();
-        forms.put("mail",user.getMail());
-        forms.put("passwords",user.getPasswords());
+    void loadMyComment() {
+        Map<String, String> forms = new HashMap<>();
+        forms.put("mail", user.getMail());
+        forms.put("passwords", user.getPasswords());
         HttpUtil.doFormPost(Configures.URL_MY_COMMENTS, forms, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -81,43 +84,44 @@ public class MyCommentActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code()==200){
-                    try{
-                        JSONObject object=new JSONObject(response.body().string());
-                        int result=object.getInt("result");
-                        if(result==200){
+                if (response.code() == 200) {
+                    try {
+                        JSONObject object = new JSONObject(response.body().string());
+                        int result = object.getInt("result");
+                        if (result == 200) {
                             // 刷新适配器关联的数据
                             myCommentList.clear();
                             myCommentList.addAll(gson.fromJson(object.getString("data"),
-                                    new TypeToken<List<MyComment>>(){}.getType()));
+                                    new TypeToken<List<MyComment>>() {
+                                    }.getType()));
                             // 在主线程中提示适配器更新显示列表
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     commentAdapter.notifyDataSetChanged();
                                 }
-                            },1000);
+                            }, 1000);
                         }
-                    }catch(JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                else{
+                } else {
                     toast("请联系管理员");
                 }
             }
         });
     }
 
-    private void toast(String msg){
+    private void toast(String msg) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
             }
-        });}
+        });
+    }
 
-    class MyComment implements Serializable{
+    class MyComment implements Serializable {
         String comment;
         String date;
         String title;
@@ -185,59 +189,58 @@ public class MyCommentActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-                View view = LayoutInflater.from(getApplicationContext())
-                        .inflate(R.layout.item_mycomment, viewGroup, false);
-                ViewHolder viewHolder = new ViewHolder(view);
-                viewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            View view = LayoutInflater.from(getApplicationContext())
+                    .inflate(R.layout.item_mycomment, viewGroup, false);
+            ViewHolder viewHolder = new ViewHolder(view);
+            viewHolder.title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                        // 拿到当前点击的评论的帖子数据
-                        Map<String,String> forms=new HashMap<>();
-                        forms.put("mail",user.getMail());
-                        forms.put("passwords",user.getPasswords());
-                        forms.put("discussId", myCommentList.get(viewHolder.getAdapterPosition()).getDiscussId());
-                        HttpUtil.doFormPost(Configures.URL_DISCUSS_GETDISCUSSBYID, forms, new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-                                toast("请连接网络重试");
-                            }
+                    // 拿到当前点击的评论的帖子数据
+                    Map<String, String> forms = new HashMap<>();
+                    forms.put("mail", user.getMail());
+                    forms.put("passwords", user.getPasswords());
+                    forms.put("discussId", myCommentList.get(viewHolder.getAdapterPosition()).getDiscussId());
+                    HttpUtil.doFormPost(Configures.URL_DISCUSS_GETDISCUSSBYID, forms, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            toast("请连接网络重试");
+                        }
 
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                if(response.code()==200){
-                                    try{
-                                        JSONObject object=new JSONObject(response.body().string());
-                                        int result=object.getInt("result");
-                                        if(result==200){
-                                            Intent intent=new Intent(MyCommentActivity.this, ShowDiscussActivity.class);
-                                            Discuss discuss = gson.fromJson(object.getString("data"), Discuss.class);
-                                            intent.putExtra("discuss", discuss);
-                                            startActivity(intent);
-                                        }
-                                    }catch(JSONException e){
-                                        e.printStackTrace();
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.code() == 200) {
+                                try {
+                                    JSONObject object = new JSONObject(response.body().string());
+                                    int result = object.getInt("result");
+                                    if (result == 200) {
+                                        Intent intent = new Intent(MyCommentActivity.this, ShowDiscussActivity.class);
+                                        Discuss discuss = gson.fromJson(object.getString("data"), Discuss.class);
+                                        intent.putExtra("discuss", discuss);
+                                        startActivity(intent);
                                     }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                                else{
-                                    toast("请联系管理员");
-                                }
+                            } else {
+                                toast("请联系管理员");
                             }
-                        });
-                    }
-                });
-                return viewHolder;
+                        }
+                    });
+                }
+            });
+            return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                MyComment myComment = (MyComment) myCommentList.get(i);
-                ViewHolder holder = (ViewHolder) viewHolder;
-                Util.loadImageFromUrl(getApplicationContext(), myComment.getAuthorPic(), holder.userPic);
-                holder.userName.setText(myComment.getAuthorName());
-                holder.commentContent.setText(myComment.getComment());
-                holder.commentDate.setText(myComment.getDate());
-                holder.title.setText(myComment.getTitle());
+            MyComment myComment = (MyComment) myCommentList.get(i);
+            ViewHolder holder = (ViewHolder) viewHolder;
+            Util.loadImageFromUrl(getApplicationContext(), myComment.getAuthorPic(), holder.userPic);
+            holder.userName.setText(myComment.getAuthorName());
+            holder.commentContent.setText(myComment.getComment());
+            holder.commentDate.setText(myComment.getDate());
+            holder.title.setText(myComment.getTitle());
         }
 
         @Override
@@ -250,7 +253,7 @@ public class MyCommentActivity extends AppCompatActivity {
             return TYPE_CONTENT;
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder {
             @BindView(R.id.userPic)
             RoundedImageView userPic;
             @BindView(R.id.userName)
