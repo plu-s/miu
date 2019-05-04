@@ -67,7 +67,31 @@ public class DiscussFragment extends Fragment {
     private List<String> likedDiscussIdList=new ArrayList<>();
     private Handler handler;
     private Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+    // DiscussFragment 在三个地方被使用，分别是讨论区，我的点赞，我的帖子
+    // 这三个地方的菜单栏、工具栏标题以及对帖子数据的筛选都应该是不同的
+    // 下面是相关设置的方法或接口
+
+    private boolean enableMenu = true;
+    private String toolbarTitle = "miu";
     private DisCussFilter disCussFilter;
+
+    public void setToolbarTitle(String title)
+    {
+        this.toolbarTitle = title;
+    }
+
+    public void setEnableMenu(boolean enableMenu) {
+        this.enableMenu = enableMenu;
+    }
+
+    interface DisCussFilter{
+        void filter(List<Discuss> discussList,List<User> authorList,List<String> likedDiscussIdList);
+    }
+
+    public void setDisCussFilter(DisCussFilter disCussFilter) {
+        this.disCussFilter = disCussFilter;
+    }
 
 
     @Nullable
@@ -93,6 +117,7 @@ public class DiscussFragment extends Fragment {
             }
         });
         handler=new Handler();
+        toolbar.setTitle(toolbarTitle);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         errorPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,8 +204,11 @@ public class DiscussFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.discuss,menu);
+        if (enableMenu)
+        {
+            menu.clear();
+            inflater.inflate(R.menu.discuss,menu);
+        }
     }
 
     @Override
@@ -389,13 +417,5 @@ public class DiscussFragment extends Fragment {
                 footerTv.setVisibility(View.VISIBLE);
             }
         }
-    }
-
-    interface DisCussFilter{
-        void filter(List<Discuss> discussList,List<User> authorList,List<String> likedDiscussIdList);
-    }
-
-    public void setDisCussFilter(DisCussFilter disCussFilter) {
-        this.disCussFilter = disCussFilter;
     }
 }

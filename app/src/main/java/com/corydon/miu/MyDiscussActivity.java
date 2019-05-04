@@ -47,6 +47,8 @@ public class MyDiscussActivity extends AppCompatActivity {
         fragmentManager=getSupportFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         discussFragment=new DiscussFragment();
+        discussFragment.setEnableMenu(false);
+        discussFragment.setToolbarTitle("我的帖子");
         discussFragment.setDisCussFilter(disCussFilter);
         transaction.add(R.id.layout,discussFragment);
         transaction.show(discussFragment);

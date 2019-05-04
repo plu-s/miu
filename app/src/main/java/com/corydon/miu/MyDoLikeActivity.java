@@ -49,6 +49,8 @@ public class MyDoLikeActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         discussFragment = new DiscussFragment();
+        discussFragment.setEnableMenu(false);
+        discussFragment.setToolbarTitle("我的点赞");
         discussFragment.setDisCussFilter(disCussFilter);
         transaction.add(R.id.layout, discussFragment);
         transaction.show(discussFragment);

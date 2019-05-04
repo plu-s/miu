@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_discuss:
                     if(discussFragment==null){
                         discussFragment=new DiscussFragment();
+                        discussFragment.setEnableMenu(true);
+                        discussFragment.setToolbarTitle("讨论区");
+                        discussFragment.setDisCussFilter(null); // 设置筛选器为空，说明保留显示所有帖子，正适合讨论区
                         transaction.add(R.id.first_content,discussFragment);
                     }
                     transaction.show(discussFragment);
