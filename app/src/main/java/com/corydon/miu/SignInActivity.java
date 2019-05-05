@@ -1,11 +1,14 @@
 package com.corydon.miu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +38,12 @@ public class SignInActivity extends AppCompatActivity {
     Button signInButton;
     @BindView(R.id.sign_up_link)
     TextView signUpLink;
+    @BindView(R.id.rememberPass)
+    CheckBox checkBox;
     private Handler handler=new Handler();
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +53,18 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void initView(){
+
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isPassRemember = pref.getBoolean("remember_password", false);
+        if (isPassRemember)
+        {
+            String usermail = pref.getString("usermail", "");
+            String password = pref.getString("password", "");
+            mailInput.setText(usermail);
+            passwordsInput.setText(password);
+            checkBox.setChecked(true);
+        }
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +85,18 @@ public class SignInActivity extends AppCompatActivity {
                                 JSONObject object=new JSONObject(response.body().string());
                                 int result=object.getInt("result");
                                 if(result==Configures.RESULT_OK){
+
+                                    editor = pref.edit();
+                                    if (checkBox.isChecked())
+                                    {
+                                        editor.putBoolean("remember_password", true);
+                                        editor.putString("usermail", mailInput.getText().toString());
+                                        editor.putString("password", passwordsInput.getText().toString());
+                                    }else{
+                                        editor.clear();
+                                    }
+                                    editor.apply();
+
                                     User user=gson.fromJson(object.getString("data"),User.class);
                                     startMailActivity(user);
                                 }
