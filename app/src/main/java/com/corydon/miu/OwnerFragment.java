@@ -55,6 +55,8 @@ public class OwnerFragment extends Fragment {
     Button myDoLike;
     @BindView(R.id.myComments)
     Button myComments;
+    @BindView(R.id.signOut)
+    Button signOut;
     private User user;
     private AppCompatActivity activity;
     public static final int REQUEST_CHOOSE_PHOTO=1;
@@ -85,6 +87,7 @@ public class OwnerFragment extends Fragment {
         myDiscuss.setOnClickListener(clickListener);
         myDoLike.setOnClickListener(clickListener);
         myComments.setOnClickListener(clickListener);
+        signOut.setOnClickListener(clickListener);
     }
 
     class ClickListener implements View.OnClickListener{
@@ -108,6 +111,10 @@ public class OwnerFragment extends Fragment {
             else if(v.getId()==R.id.myComments){
                 Intent intent=new Intent(getContext(),MyCommentActivity.class);
                 startActivity(intent);
+            }else if(v.getId() == R.id.signOut){
+                Intent intent=new Intent(getContext(),SignInActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         }
     }
