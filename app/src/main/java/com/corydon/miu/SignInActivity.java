@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -40,6 +41,8 @@ public class SignInActivity extends AppCompatActivity {
     TextView signUpLink;
     @BindView(R.id.rememberPass)
     CheckBox checkBox;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private Handler handler=new Handler();
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -53,6 +56,9 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void initView(){
+
+        toolbar.setTitle("登录");
+        setSupportActionBar(toolbar);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isPassRemember = pref.getBoolean("remember_password", false);

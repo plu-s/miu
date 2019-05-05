@@ -3,6 +3,7 @@ package com.corydon.miu;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText passwordsInput2;
     @BindView(R.id.sign_up_button)
     Button signUpButton;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private Handler handler=new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,10 @@ public class SignUpActivity extends AppCompatActivity {
         initView();
     }
     private void initView(){
+
+        toolbar.setTitle("注册");
+        setSupportActionBar(toolbar);
+
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
