@@ -100,6 +100,7 @@ public class WriteDiscussActivity extends AppCompatActivity implements EasyPermi
     }
 
     private void init(){
+        toolbar.setTitle("发表帖子");
         setSupportActionBar(toolbar);
         Typeface iconfont = Typeface.createFromAsset(getAssets(), "Simditor.ttf");
         webView.addJavascriptInterface(new JavaScriptLocalObj(),"local_obj");
