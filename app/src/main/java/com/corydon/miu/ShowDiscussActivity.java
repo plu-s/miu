@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -152,7 +151,6 @@ public class ShowDiscussActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     commentAdapter.notifyDataSetChanged();
-                                    commentAdapter.setProgressOver();
                                 }
                             }, 1000);
                         } else {
@@ -170,19 +168,14 @@ public class ShowDiscussActivity extends AppCompatActivity {
 
     class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final static int TYPE_CONTENT = 0;
-        private final static int TYPE_FOOTER = 1;
+        private final static int TYPE_TITLEBAR = 1;
         private final static int TYPE_WEBVIEW = 2;
         private List<DiscussComment> discussCommentList;
         private Discuss discuss;
-        private FootViewHolder footViewHolder;
 
         public CommentAdapter(List<DiscussComment> discussCommentList, Discuss discuss) {
             this.discussCommentList = discussCommentList;
             this.discuss = discuss;
-        }
-
-        public void setProgressOver() {
-            footViewHolder.setOver();
         }
 
         @NonNull
@@ -200,16 +193,16 @@ public class ShowDiscussActivity extends AppCompatActivity {
                 return viewHolder;
             } else {
                 View view = LayoutInflater.from(getApplicationContext())
-                        .inflate(R.layout.footer_item, viewGroup, false);
-                footViewHolder = new FootViewHolder(view);
-                return footViewHolder;
+                        .inflate(R.layout.item_comment_titlebar, viewGroup, false);
+                CommentTitlebarViewHolder commentTitlebarViewHolder = new CommentTitlebarViewHolder(view);
+                return commentTitlebarViewHolder;
             }
         }
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
             if (getItemViewType(i) == TYPE_CONTENT) {
-                DiscussComment discussComment = (DiscussComment) discussCommentList.get(i - 1);
+                DiscussComment discussComment = (DiscussComment) discussCommentList.get(i - 2);
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 ItemViewHolder holder = (ItemViewHolder) viewHolder;
                 Util.loadImageFromUrl(getApplicationContext(), discussComment.getUserPic(), holder.userPic);
@@ -217,8 +210,7 @@ public class ShowDiscussActivity extends AppCompatActivity {
                 holder.commentContent.setText(discussComment.getContent());
                 holder.commentDate.setText(format.format(discussComment.getCreateDate()));
             } else if (getItemViewType(i) == TYPE_WEBVIEW) {
-                if (discussShowView == null)
-                {
+                if (discussShowView == null) {
                     DiscussViewHolder holder = (DiscussViewHolder) viewHolder;
                     discussShowView = new WebView(getApplicationContext());
                     discussShowView.setWebViewClient(new WebViewClient());
@@ -227,6 +219,9 @@ public class ShowDiscussActivity extends AppCompatActivity {
                             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     holder.discussShowLayout.addView(discussShowView, 0, lp);
                 }
+            } else {
+                CommentTitlebarViewHolder holder = (CommentTitlebarViewHolder) viewHolder;
+                holder.commentTitleBar.setText(String.format("所有评论(%d)", discussCommentList.size()));
             }
         }
 
@@ -240,9 +235,9 @@ public class ShowDiscussActivity extends AppCompatActivity {
             if (position == 0)
                 return TYPE_WEBVIEW;
             if (discussCommentList.size() == 0)
-                return TYPE_FOOTER;
-            else if (position == discussCommentList.size() + 1)
-                return TYPE_FOOTER;
+                return TYPE_TITLEBAR;
+            else if (position == 1)
+                return TYPE_TITLEBAR;
             else return TYPE_CONTENT;
         }
 
@@ -273,20 +268,13 @@ public class ShowDiscussActivity extends AppCompatActivity {
 
         }
 
-        class FootViewHolder extends RecyclerView.ViewHolder {
-            @BindView(R.id.progressBar)
-            ContentLoadingProgressBar progressBar;
-            @BindView(R.id.footer_tv)
-            TextView footerTv;
+        class CommentTitlebarViewHolder extends RecyclerView.ViewHolder {
+            @BindView(R.id.commentTitleBar)
+            TextView commentTitleBar;
 
-            public FootViewHolder(@NonNull View itemView) {
+            public CommentTitlebarViewHolder(@NonNull View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
-            }
-
-            public void setOver() {
-                progressBar.setVisibility(View.INVISIBLE);
-                footerTv.setVisibility(View.VISIBLE);
             }
         }
     }

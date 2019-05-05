@@ -225,39 +225,25 @@ public class DiscussFragment extends Fragment {
 
     class DiscussAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private final static int TYPE_CONTENT=0;
-        private final static int TYPE_FOOTER=1;
         List<Discuss> discussList;
         List<User> authorList;
         List<String> likedDiscussId;
-        FootViewHolder footViewHolder;
         DiscussAdapter(List<Discuss> discussList,List<User> authorList,List<String> likedDiscussId){
             this.discussList=discussList;
             this.authorList=authorList;
             this.likedDiscussId=likedDiscussId;
         }
 
-        public void setOver(){
-            footViewHolder.setOver();
-        }
-
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-            if(viewType==TYPE_CONTENT){
-                View view=LayoutInflater.from(getContext())
-                        .inflate(R.layout.item_discuss,viewGroup,false);
-                ItemViewHolder viewHolder=new ItemViewHolder(view);
-                initItemViewHolder(viewHolder);
-                return viewHolder;
-            }
-            else{
-                View view=LayoutInflater.from(getContext())
-                        .inflate(R.layout.footer_item,viewGroup,false);
-                footViewHolder=new FootViewHolder(view);
-                return footViewHolder;
-            }
-
+            View view=LayoutInflater.from(getContext())
+                    .inflate(R.layout.item_discuss,viewGroup,false);
+            ItemViewHolder viewHolder=new ItemViewHolder(view);
+            initItemViewHolder(viewHolder);
+            return viewHolder;
         }
+
         private void initItemViewHolder(ItemViewHolder viewHolder){
             viewHolder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -309,10 +295,8 @@ public class DiscussFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-            if(getItemViewType(i)==TYPE_FOOTER){
-
-            }
-            else{
+            if (getItemViewType(i) == TYPE_CONTENT)
+            {
                 ItemViewHolder itemViewHolder=(ItemViewHolder)viewHolder;
                 List<ImageView> imageViewList=new ArrayList<>();
                 Discuss discuss=discussList.get(i);
@@ -366,8 +350,6 @@ public class DiscussFragment extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            /*if(position==discussList.size())
-                return TYPE_FOOTER;*/
             return TYPE_CONTENT;
         }
 
@@ -404,20 +386,6 @@ public class DiscussFragment extends Fragment {
                 ButterKnife.bind(this,itemView);
             }
 
-        }
-        class FootViewHolder extends RecyclerView.ViewHolder{
-            @BindView(R.id.progressBar)
-            ContentLoadingProgressBar progressBar;
-            @BindView(R.id.footer_tv)
-            TextView footerTv;
-            public FootViewHolder(@NonNull View itemView) {
-                super(itemView);
-                ButterKnife.bind(this,itemView);
-            }
-            public void setOver(){
-                progressBar.setVisibility(View.INVISIBLE);
-                footerTv.setVisibility(View.VISIBLE);
-            }
         }
     }
 }
