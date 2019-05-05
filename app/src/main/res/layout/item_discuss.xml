@@ -14,22 +14,37 @@
         android:src="@mipmap/ic_launcher"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/user_name"
         app:layout_constraintBottom_toTopOf="@id/line1"
         app:riv_oval="true"
         app:riv_border_width="1dp"
         app:riv_border_color="@color/black"/>
 
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/name_date_layout"
         android:layout_margin="@dimen/item_view_size"
-        android:text="名字"
-        android:textSize="@dimen/view_text_size"
-        app:layout_constraintBottom_toBottomOf="@id/user_pic"
-        app:layout_constraintStart_toEndOf="@id/user_pic"
-        app:layout_constraintTop_toTopOf="@id/user_pic" />
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toRightOf="@+id/user_pic"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/line1">
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="名字"
+            android:textSize="@dimen/view_text_size"
+            android:layout_alignParentTop="true"/>
+
+        <TextView
+            android:id="@+id/createDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发表时间"
+            android:textSize="@dimen/view_text_size"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+
     <View
         android:id="@+id/line1"
         android:layout_width="match_parent"

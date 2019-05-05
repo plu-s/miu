@@ -40,6 +40,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -305,6 +306,8 @@ public class DiscussFragment extends Fragment {
                     Util.loadImageFromUrl(getContext(),author.getPicUrl(),itemViewHolder.pic);
                 }
                 itemViewHolder.userName.setText(author.getName());
+                SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+                itemViewHolder.createDate.setText(format.format(discuss.getCreateDate()));
                 itemViewHolder.discussTitle.setText(discuss.getTitle());
 
                 Document document=Jsoup.parse(discuss.getContent());
@@ -363,6 +366,8 @@ public class DiscussFragment extends Fragment {
             RoundedImageView pic;
             @BindView(R.id.user_name)
             TextView userName;
+            @BindView(R.id.createDate)
+            TextView createDate;
             @BindView(R.id.discuss_title)
             TextView discussTitle;
             @BindView(R.id.discuss_content)

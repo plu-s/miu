@@ -208,7 +208,7 @@ public class ShowDiscussActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
             if (getItemViewType(i) == TYPE_CONTENT) {
                 DiscussComment discussComment = (DiscussComment) discussCommentList.get(i - 2);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
                 ItemViewHolder holder = (ItemViewHolder) viewHolder;
                 Util.loadImageFromUrl(getApplicationContext(), discussComment.getUserPic(), holder.userPic);
                 holder.userName.setText(discussComment.getUserName());
