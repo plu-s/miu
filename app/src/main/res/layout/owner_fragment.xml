@@ -6,6 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AlertDialog.AppCompat.Light"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/userPic"
         android:layout_width="@dimen/user_pic_size"
@@ -16,7 +25,7 @@
         app:layout_constraintBottom_toTopOf="@id/line1"
         app:layout_constraintEnd_toStartOf="@id/userName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:riv_border_color="@color/black"
         app:riv_border_width="1dp"
         app:riv_oval="true"

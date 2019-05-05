@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,8 @@ public class ShowDiscussActivity extends AppCompatActivity {
     Button commentButton;
     @BindView(R.id.commentView)
     RecyclerView commentView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     WebView discussShowView = null;
     private Discuss discuss;
     private User user;
@@ -71,6 +74,8 @@ public class ShowDiscussActivity extends AppCompatActivity {
     }
 
     private void init() {
+        toolbar.setTitle("帖子");
+        setSupportActionBar(toolbar);
         handler = new Handler();
         Intent intent = getIntent();
         discuss = (Discuss) intent.getSerializableExtra("discuss");

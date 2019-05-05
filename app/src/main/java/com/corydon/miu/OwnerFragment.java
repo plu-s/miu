@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class OwnerFragment extends Fragment {
     Button myComments;
     @BindView(R.id.signOut)
     Button signOut;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private User user;
     private AppCompatActivity activity;
     public static final int REQUEST_CHOOSE_PHOTO=1;
@@ -78,6 +81,8 @@ public class OwnerFragment extends Fragment {
     }
 
     private void init(){
+        toolbar.setTitle("个人中心");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         activity=(AppCompatActivity)getActivity();
         user=MainActivity.user;
         handler=new Handler();
