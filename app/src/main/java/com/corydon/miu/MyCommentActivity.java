@@ -240,7 +240,8 @@ public class MyCommentActivity extends AppCompatActivity {
             holder.userName.setText(myComment.getAuthorName());
             holder.commentContent.setText(myComment.getComment());
             holder.commentDate.setText(myComment.getDate());
-            holder.title.setText(myComment.getTitle());
+            String tmpTitle = "[标题] " + myComment.getTitle();
+            holder.title.setText(tmpTitle);
         }
 
         @Override
@@ -260,8 +261,6 @@ public class MyCommentActivity extends AppCompatActivity {
             TextView userName;
             @BindView(R.id.title)
             TextView title;
-            @BindView(R.id.line1)
-            View line1;
             @BindView(R.id.commentContent)
             TextView commentContent;
             @BindView(R.id.commentDate)
