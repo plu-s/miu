@@ -89,7 +89,6 @@ public class WriteDiscussActivity extends AppCompatActivity implements EasyPermi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_discuss);
         ButterKnife.bind(this);
-        requestPermission();
         Intent intent=getIntent();
         user=MainActivity.user;
         init();
@@ -129,11 +128,9 @@ public class WriteDiscussActivity extends AppCompatActivity implements EasyPermi
         imageButton.getTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                requestPermission();
                 if(EasyPermissions.hasPermissions(getApplicationContext(),perms))
                     openAlbum();
-                else {
-                    toast("需要授予权限");
-                }
             }
         });
         icarus.render();

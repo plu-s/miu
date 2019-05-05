@@ -94,7 +94,7 @@ public class Util {
 
     public static void requestPermissions(Activity activity, String[] perms,int requestCode){
         if(!EasyPermissions.hasPermissions(activity,perms)){
-            EasyPermissions.requestPermissions(activity,"",requestCode);
+            EasyPermissions.requestPermissions(activity,"选取图片需要外部存储设备读写权限",requestCode, perms);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.corydon.miu;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +39,7 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -64,6 +66,8 @@ public class OwnerFragment extends Fragment {
     private AppCompatActivity activity;
     public static final int REQUEST_CHOOSE_PHOTO=1;
     public static final int REQUEST_PHOTO_CUT=2;
+    private String[] perms={Manifest.permission.READ_EXTERNAL_STORAGE};
+    private static final int REQUEST_PERMISSION=2;
     private Handler handler;
     private Uri cropFileUri;
     private Gson gson=new Gson();
@@ -78,6 +82,10 @@ public class OwnerFragment extends Fragment {
         init();
         refreshData();
         return view;
+    }
+
+    public void requestPermission(){
+        Util.requestPermissions(getActivity(),perms,REQUEST_PERMISSION);
     }
 
     private void init(){
@@ -99,7 +107,9 @@ public class OwnerFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if(v.getId()==R.id.userPic){
-                openAlbum();
+                requestPermission();
+                if(EasyPermissions.hasPermissions(getContext(),perms))
+                    openAlbum();
             }
             else if(v.getId()==R.id.accountSetting){
                 Intent intent=new Intent(getContext(),AccountSettingActivity.class);
