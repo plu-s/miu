@@ -219,7 +219,7 @@ public class ShowDiscussActivity extends AppCompatActivity {
                     DiscussViewHolder holder = (DiscussViewHolder) viewHolder;
                     discussShowView = new WebView(getApplicationContext());
                     discussShowView.setWebViewClient(new WebViewClient());
-                    discussShowView.loadData(discuss.getContent(), "text/html", "UTF-8");
+                    discussShowView.loadData(discuss.getContent(), "text/html; charset=UTF-8", null);
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     holder.discussShowLayout.addView(discussShowView, 0, lp);
